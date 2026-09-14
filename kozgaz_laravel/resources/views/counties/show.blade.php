@@ -65,29 +65,39 @@
                 <span class="title-bar" aria-hidden="true"></span>
                 Települések
             </h2>
+            <div class="spec-aside-actions" style="flex-direction: row;">
+                <button type="button" class="btn btn-sm btn-secondary" data-action="show" title="Megjelenítés" disabled>Megjelenítés</button>
+                <button type="button" class="btn btn-sm btn-primary" data-action="edit" title="Szerkesztés" disabled>Szerkesztés</button>
+                <button type="button" class="btn btn-sm btn-danger" data-action="delete" title="Törlés" disabled>Törlés</button>
+            </div>
         </div>
+
+        <form id="quick-delete-form" method="POST" style="display:none;">
+            @csrf
+            @method('DELETE')
+        </form>
 
         <div class="spec-divider" aria-hidden="true">
             <a href="{{ route('counties.show', ['county' => $county->id, 'sort_by' => 'city', 'sort_dir' => 'asc']) }}" title="ABC">🔽</a>
             <a href="{{ route('counties.show', ['county' => $county->id, 'sort_by' => 'city', 'sort_dir' => 'desc']) }}" title="ZYX">🔼</a>
         </div>
 
-        <table class="table">
+        <table class="table" data-quick-actions data-base-route="{{ url('/cities') }}">
             <thead>
                 <tr>
                     <th>Irányítószám</th>
                     <th>Település</th>
                     <th>Lakosság</th>
-                    <th></th>
+                    <!--<th></th>-->
                 </tr>
             </thead>
             <tbody>
                 @forelse($cities as $city)
-                    <tr>
+                    <tr data-id="{{ $city->id }}">
                         <td>{{ $city->zip_code }}</td>
                         <td>{{ $city->city }}</td>
                         <td>{{ number_format($city->population, 0, ',', ' ') }}</td>
-                        <td class="spec-row-actions">
+                        <!--<td class="spec-row-actions">
                             <a href="{{ route('cities.show', $city->id) }}" class="btn btn-sm btn-secondary" title="Megtekintés">👁️</a>
                             <a href="{{ route('cities.edit', $city->id) }}" class="btn btn-sm btn-primary" title="Szerkesztés">✏️</a>
                             <form action="{{ route('cities.destroy', $city->id) }}" method="POST" style="display:inline;">
@@ -98,7 +108,7 @@
                                     🗑️
                                 </button>
                             </form>
-                        </td>
+                        </td>-->
                     </tr>
                 @empty
                     <tr>

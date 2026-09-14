@@ -4,9 +4,9 @@
 
 <h1>Megyék
     <a href="{{route('counties.create')}}" title="Új megye">➕</a>
-    <button type="button" class="button" data-action="show" title="Megjelenítés">👁️</button>
-    <button type="button" class="button" data-action="edit" title="Szerkesztés">✏️</button>
-    <button type="button" class="danger" data-action="delete" title="Törlés">🗑️</button>
+    <button type="button" class="button" data-action="show" title="Megjelenítés" disabled>Megjelenítés</button>
+    <button type="button" class="button" data-action="edit" title="Szerkesztés" disabled>Szerkesztés</button>
+    <button type="button" class="danger" data-action="delete" title="Törlés" disabled>Törlés</button>
     
     <a href="{{route('counties.index', ['sort_by' => 'name', 'sort_dir' => 'asc', 'search' => request('search')])}}" title="ABC">🔽</a>
     <a href="{{route('counties.index', ['sort_by' => 'name', 'sort_dir' => 'desc', 'search' => request('search')])}}" title="ZYX">🔼</a>

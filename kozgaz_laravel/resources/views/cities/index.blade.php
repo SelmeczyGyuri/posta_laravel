@@ -4,10 +4,10 @@
 
 <h1> Városok listája 
     <a href="{{route('cities.create')}}" title="Új város">➕</a>
-    <button type="button" class="button" data-action="show" title="Megjelenítés">👁️</button>
-    <button type="button" class="button" data-action="edit" title="Szerkesztés">✏️</button>
-    <button type="button" class="danger" data-action="delete" title="Törlés">🗑️</button>
-
+    <button type="button" class="button" data-action="show" title="Megjelenítés" disabled>Megjelenítés</button>
+    <button type="button" class="button" data-action="edit" title="Szerkesztés" disabled>Szerkesztés</button>
+    <button type="button" class="danger" data-action="delete" title="Törlés" disabled>Törlés</button>
+    <a href="{{ route('cities.export', ['search' => request('search'), 'county' => request('county')]) }}" title="Exportálás CSV-be">📥</a>
     <a href="{{route('cities.index', ['sort_by' => 'city', 'sort_dir' => 'asc', 'search' => request('search'), 'county' => request('county')])}}" title="ABC">🔽</a>
     <a href="{{route('cities.index', ['sort_by' => 'city', 'sort_dir' => 'desc', 'search' => request('search'), 'county' => request('county')])}}" title="ZYX">🔼</a>
 </h1>

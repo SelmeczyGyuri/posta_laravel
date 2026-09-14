@@ -152,4 +152,43 @@ class CitiesController extends Controller
         return redirect()->route('cities.index')
         ->with('success', 'Város sikeresen törölve!');
     }
+
+    public function export()
+    {
+        $sort_by = request()->query('sort_by', 'city');
+        $sort_dir = request()->query('sort_dir', 'asc');
+        $search = request()->query('search');
+        $countyFilter = request()->query('county');
+
+        $cities = City::with('county')
+            ->when($search, fn($q, $search) => $q->where('city', 'like', '%' . $search . '%'))
+            ->when($countyFilter, fn($q, $countyFilter) => $q->where('id_county', $countyFilter))
+            ->orderBy($sort_by, $sort_dir)
+            ->get();
+
+        $filename = 'varosok.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function () use ($cities) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'Irányítószám', 'Város', 'Megye', 'Lakosság']);
+
+            foreach ($cities as $city) {
+                fputcsv($file, [
+                    $city->id,
+                    $city->zip_code,
+                    $city->city,
+                    $city->county?->name ?? 'Ismeretlen megye',
+                    $city->population,
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

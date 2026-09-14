@@ -668,3 +668,13 @@ table.selecting tbody tr {
 table.selecting tbody tr:hover {
     background-color: var(--paper-dim);
 }
+
+tr.row-selected {
+    background-color: var(--paper-dim);
+    outline: 0.1em solid var(--brass);
+}
+
+button[data-action]:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

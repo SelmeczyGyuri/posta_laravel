@@ -4,11 +4,18 @@
 
 <h1> Városok listája 
     <a href="{{route('cities.create')}}" title="Új város">➕</a>
-    <!--<a href="{{route('cities.index', ['sort_by' => 'city', 'sort_dir' => 'asc'])}}" title="ABC">🔽</a>
-    <a href="{{route('cities.index', ['sort_by' => 'city', 'sort_dir' => 'desc'])}}" title="ZYX">🔼</a>-->
+    <button type="button" class="button" data-action="show" title="Megjelenítés">👁️</button>
+    <button type="button" class="button" data-action="edit" title="Szerkesztés">✏️</button>
+    <button type="button" class="danger" data-action="delete" title="Törlés">🗑️</button>
+
     <a href="{{route('cities.index', ['sort_by' => 'city', 'sort_dir' => 'asc', 'search' => request('search'), 'county' => request('county')])}}" title="ABC">🔽</a>
     <a href="{{route('cities.index', ['sort_by' => 'city', 'sort_dir' => 'desc', 'search' => request('search'), 'county' => request('county')])}}" title="ZYX">🔼</a>
 </h1>
+
+<form id="quick-delete-form" method="POST" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
 
 @if(session('success'))
 <div class="alert alert-success">
@@ -34,21 +41,7 @@
     @endif
 </form>
 
-<!--<ul>
-    @foreach($cities as $city)
-        <li>{{ $city->id }}. {{ $city->zip_code }} - {{ $city->city }} - {{ $city->county?->name ?? 'Ismeretlen megye' }} - {{ $city->population }}
-            <a href="{{route('cities.show', $city->id)}}" class="button">Megjelenítés</a>
-            <a href="{{route('cities.edit', $city->id)}}" class="button">Szerkesztés</a>
-            <form action="{{route('cities.destroy', $city->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="danger" onclick="return confirm('Biztosan törlöd?')">Törlés</button>
-            </form>
-        </li>
-    @endforeach
-</ul>-->
-
-<table class="table">
+<table class="table" data-quick-actions data-base-route="{{ url('/cities') }}">
     <thead>
         <tr>
             <th>ID</th>
@@ -56,18 +49,18 @@
             <th>Város</th>
             <th>Megye</th>
             <th>Lakosság</th>
-            <th>Műveletek</th>
+            <!--<th>Műveletek</th>-->
         </tr>
     </thead>
     <tbody>
         @foreach($cities as $city)
-            <tr>
+            <tr data-id="{{ $city->id }}">
                 <td>{{ $city->id }}</td>
                 <td>{{ $city->zip_code }}</td>
                 <td>{{ $city->city }}</td>
                 <td>{{ $city->county?->name ?? 'Ismeretlen megye' }}</td>
                 <td>{{ $city->population }}</td>
-                <td class="spec-row-actions">
+                <!--<td class="spec-row-actions">
                     <div class="actions-inner">
                         <a href="{{ route('cities.show', $city->id) }}" class="button">Megjelenítés</a>
                         <a href="{{ route('cities.edit', $city->id) }}" class="button">Szerkesztés</a>
@@ -77,7 +70,7 @@
                             <button type="submit" class="danger" onclick="return confirm('Biztosan törlöd?')">Törlés</button>
                         </form>
                     </div>
-                </td>
+                </td>-->
             </tr>
         @endforeach
     </tbody>

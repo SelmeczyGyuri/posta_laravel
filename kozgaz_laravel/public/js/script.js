@@ -25,9 +25,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     table.querySelectorAll('tbody tr').forEach(function (row) {
         row.addEventListener('click', function (e) {
-            // let the row's own links/buttons/forms keep working normally
             if (e.target.closest('a, button, form')) return;
             selectRow(row);
+        });
+
+        row.addEventListener('dblclick', function (e) {
+            if (e.target.closest('a, button, form')) return;
+            const id = row.dataset.id;
+            if (!id) return;
+            window.location.href = `${baseRoute}/${id}/edit`;
         });
     });
 
@@ -49,3 +55,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
